@@ -1,13 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { UserDataCookie } from "../hooks/useUserCookie";
 
 interface InitialState {
   status: boolean;
-  userData: any;
+  userData: UserDataCookie | null;
 }
 
 const initialState: InitialState = {
   status: false,
-  userData: null,
+  userData: {} as UserDataCookie,
 };
 
 const authSlice = createSlice({

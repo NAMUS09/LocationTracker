@@ -1,28 +1,65 @@
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { loginFields } from "../constants";
 import Input from "../components/Input/Input";
-import { useState } from "react";
 import Button from "../components/Button";
+import { toast } from "react-hot-toast";
+import { useRequestProcessor } from "../hooks/useRequestProcessor";
+import axiosClient from "../axios";
+import { LoginResponse } from "../constants/interfaces/authResponse";
+import { useAppDispatch } from "../hooks/useStore";
+import { login } from "../store/authSlice";
+import { useNavigate } from "react-router-dom";
+import useUserCookie from "../hooks/useUserCookie";
+import { AxiosResponse } from "axios";
 
 const fields = loginFields;
-// let fieldsState = {};
-// fields.forEach((field) => (fieldsState[field.id] = ""));
+
+interface LoginForm {
+  email: string;
+  password: string;
+}
 
 const LoginPage = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const navigate = useNavigate();
+  const { useMutate } = useRequestProcessor();
+  const dispatch = useAppDispatch();
+  const { setUser } = useUserCookie();
+
   const {
     register,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<FieldValues>({
     defaultValues: {
       email: "",
       password: "",
-    },
+    } as LoginForm,
   });
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => {
-    console.log(data);
+  const { mutate, isPending } = useMutate(
+    ["LOGIN"],
+    (formData) => axiosClient.post("/user/login", formData),
+    {
+      onSuccess: (res) => {
+        reset();
+        const { user, resultMessage } = (res as AxiosResponse)
+          .data as LoginResponse;
+        setUser(user);
+        dispatch(login(user));
+        toast.success(resultMessage.en);
+        navigate("/");
+      },
+      onError: (err) => {
+        console.log(err);
+        toast.error("Failed to Login");
+      },
+    }
+  );
+
+  const onSubmit: SubmitHandler<FieldValues> = async (formLoginData) => {
+    const loginform = { ...formLoginData } as LoginForm;
+    mutate(loginform);
   };
 
   return (
@@ -45,10 +82,10 @@ const LoginPage = () => {
                   required={field.isRequired}
                   register={register}
                   errors={errors}
-                  disabled={isLoading}
+                  disabled={isPending}
                 />
               ))}
-              <Button type="submit" fullWidth disabled={isLoading}>
+              <Button type="submit" fullWidth disabled={isPending}>
                 Sign in
               </Button>
             </form>
