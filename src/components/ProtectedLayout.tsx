@@ -4,9 +4,13 @@ import Footer from "./Footer/Footer";
 
 const ProtectedLayout = () => (
   <>
-    <Header />
-    <Outlet />
-    <Footer />
+    <div className="flex flex-col w-full h-full">
+      <Header />
+      <div className="flex-grow">
+        <Outlet />
+      </div>
+      <Footer />
+    </div>
   </>
 );
 
