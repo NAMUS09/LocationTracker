@@ -77,7 +77,7 @@ const Login = () => {
             />
           ))}
           <Button type="submit" fullWidth disabled={isPending}>
-            Sign in
+            {isPending ? "Signing in..." : "Sign in"}
           </Button>
         </form>
       </div>

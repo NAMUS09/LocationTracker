@@ -43,7 +43,7 @@ const Logout = () => {
         className="flex gap-2 self-center items-center dark:text-white cursor-pointer"
       >
         <IoMdLogOut />
-        Logout
+        {isPending ? "logging out..." : "Logout"}
       </div>
     </>
   );
