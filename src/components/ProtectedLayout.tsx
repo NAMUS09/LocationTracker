@@ -6,7 +6,7 @@ const ProtectedLayout = () => (
   <>
     <div className="flex flex-col w-full h-full">
       <Header />
-      <div className="flex-grow">
+      <div className="md:flex-grow">
         <Outlet />
       </div>
       <Footer />

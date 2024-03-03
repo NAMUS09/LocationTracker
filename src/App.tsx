@@ -15,9 +15,10 @@ function App() {
       navigate("/");
     }
   }, []);
+
   return (
     <>
-      <div className="min-h-full h-screen flex items-center justify-center bg-white dark:bg-slate-500">
+      <div className="min-h-full xl:h-screen flex items-center justify-center bg-white dark:bg-slate-500">
         <div className="w-full h-full">
           <Outlet />
         </div>
