@@ -64,7 +64,7 @@ const LocationInfoBar = () => {
             .filter((key) => key !== "loading" && key !== "timestamp")
             .map((key, index) => (
               <div key={index} className=" min-w-10">
-                <span className="capitalize dark:text-red-500 font-bold">
+                <span className="capitalize text-red-500 font-bold">
                   {key} :{" "}
                 </span>
                 <span>

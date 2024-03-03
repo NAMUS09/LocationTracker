@@ -22,7 +22,7 @@ const LocationHistoryBox: React.FC<LocationHisoryList> = ({ locations }) => {
                 (key, index) =>
                   key !== "_id" && (
                     <div key={index} className="min-w-10">
-                      <span className="capitalize dark:text-red-500 font-bold">
+                      <span className="capitalize text-red-500 font-bold">
                         {key} :{" "}
                       </span>
                       <span>

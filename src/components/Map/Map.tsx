@@ -29,7 +29,6 @@ const Map: React.FC<any> = (props) => {
       zoom: 3,
     });
 
-    map.resize();
     if (props.getpickup) {
       pickaddToMap(map, props.getpickup);
     }
