@@ -36,14 +36,13 @@ const Login = () => {
     } as LoginForm,
   });
 
-  const { mutate, isPending } = useMutate(
+  const { mutate, isPending } = useMutate<LoginResponse, LoginForm>(
     ["LOGIN"],
     (formData) => axiosClient.post("/user/login", formData),
     {
       onSuccess: (res) => {
         reset();
-        const { user, resultMessage } = (res as AxiosResponse)
-          .data as LoginResponse;
+        const { user, resultMessage } = res.data;
         setUser(user);
         dispatch(login(user));
         toast.success(resultMessage.en);

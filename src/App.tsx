@@ -17,7 +17,7 @@ function App() {
   }, []);
   return (
     <>
-      <div className="min-h-full h-screen flex items-center justify-center">
+      <div className="min-h-full h-screen flex items-center justify-center bg-white dark:bg-slate-500">
         <div className="w-full h-full">
           <Outlet />
         </div>

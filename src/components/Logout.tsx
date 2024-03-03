@@ -15,15 +15,14 @@ const Logout = () => {
   const dispatch = useAppDispatch();
   const { removeUser } = useUserCookie();
 
-  const { mutate, isPending } = useMutate(
+  const { mutate, isPending } = useMutate<DefaultResponse>(
     ["LOGOUT"],
     () => axiosClient.get("/user/logout"),
     {
       onSuccess: (res) => {
-        const response = (res as AxiosResponse).data as DefaultResponse;
         removeUser();
         dispatch(logout());
-        toast.success(response.resultMessage.en);
+        toast.success(res.data.resultMessage.en);
         navigate("/login");
       },
       onError: (err) => {

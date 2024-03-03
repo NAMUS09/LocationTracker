@@ -2,21 +2,22 @@ import { Link } from "react-router-dom";
 import logo from "../../assets/logo.png";
 import { IoMdHome } from "react-icons/io";
 import Logout from "../Logout";
+import LocationInfoBar from "./LocationInfoBar";
 
 const Header = () => {
   return (
     <>
-      <nav className="bg-white border-gray-200 dark:bg-gray-900">
+      <nav className=" bg-slate-200 border-gray-200 dark:bg-gray-900">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <a
-            href="/"
+          <Link
             className="flex items-center space-x-3 rtl:space-x-reverse"
+            to="/"
           >
             <img src={logo} className="h-8" alt="Location Tacker Logo" />
             <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
               Location Tracker
             </span>
-          </a>
+          </Link>
           <button
             data-collapse-toggle="navbar-default"
             type="button"
@@ -43,7 +44,7 @@ const Header = () => {
           </button>
           <div className="hidden md:flex md:gap-5">
             <div className=" w-full  md:w-auto" id="navbar-default">
-              <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+              <ul className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-slate-200 dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                 <li>
                   <Link
                     className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500"
@@ -61,6 +62,9 @@ const Header = () => {
           </div>
         </div>
       </nav>
+      <div className="bg-slate-300 border-gray-400 dark:bg-gray-700 p-2">
+        <LocationInfoBar />
+      </div>
     </>
   );
 };
