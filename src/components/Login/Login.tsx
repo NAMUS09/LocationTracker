@@ -1,4 +1,3 @@
-import { AxiosResponse } from "axios";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
@@ -7,7 +6,6 @@ import axiosClient from "../../axios";
 import { LoginResponse } from "../../constants/interfaces/authResponse";
 import { useRequestProcessor } from "../../hooks/useRequestProcessor";
 import { useAppDispatch } from "../../hooks/useStore";
-import useUserCookie from "../../hooks/useUserCookie";
 import { login } from "../../store/authSlice";
 import { loginFields } from "../../constants";
 
@@ -22,7 +20,6 @@ const Login = () => {
   const navigate = useNavigate();
   const { useMutate } = useRequestProcessor();
   const dispatch = useAppDispatch();
-  const { setUser } = useUserCookie();
 
   const {
     register,
@@ -43,7 +40,7 @@ const Login = () => {
       onSuccess: (res) => {
         reset();
         const { user, resultMessage } = res.data;
-        setUser(user);
+        // setUser(user);
         dispatch(login(user));
         toast.success(resultMessage.en);
         navigate("/");

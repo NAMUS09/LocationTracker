@@ -18,28 +18,26 @@ const HomePage = () => {
   const { query } = useRequestProcessor();
 
   const { data, isFetching, isFetched, isError } = query<SuccessResponse>(
-    ["locations"],
     () => axiosClient.get("/location/location-history"),
-    { refetchOnWindowFocus: false }
+    { queryKey: ["locations"], refetchOnWindowFocus: false }
   );
 
   const locationHistory = data?.data.locations;
 
   return (
     <>
-      <div className="flex w-full h-full flex-wrap">
-        <div className="map md:w-2/3 h-full p-2">
+      <div className="flex w-full h-full flex-wrap md:flex-nowrap">
+        <div className="map w-full md:w-2/3 lg:min-w-[66.66%] h-full p-2">
           <Map key="MapId" />
         </div>
-        <div className="location-history md:flex-grow p-2">
-          {isFetching && <h1>Fetching...</h1>}
-          {!isFetching && isError && <h1>Failed to Fetch...</h1>}
-
-          {!isFetching && isFetched && !!locationHistory?.length && (
+        <div className="location-history w-full md:flex-grow p-2">
+          {isFetching ? (
+            <h1>Fetching...</h1>
+          ) : isError ? (
+            <h1>Failed to Fetch...</h1>
+          ) : isFetched && locationHistory?.length ? (
             <LocationHistoryBox locations={locationHistory} />
-          )}
-
-          {!isFetching && isFetched && !locationHistory?.length && (
+          ) : (
             <div>No location history</div>
           )}
         </div>

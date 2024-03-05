@@ -3,11 +3,11 @@ import {
   MutationFunction,
   MutationKey,
   QueryFunction,
-  QueryKey,
   useMutation,
   useQuery,
   useQueryClient,
   UseMutationOptions,
+  UseQueryOptions,
 } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 
@@ -15,13 +15,12 @@ export function useRequestProcessor() {
   const queryClient = useQueryClient();
 
   function query<TData, TError = any>(
-    key: QueryKey,
     queryFunction: QueryFunction<AxiosResponse<TData>>,
-    options = {}
+    options: UseQueryOptions<AxiosResponse<TData>, AxiosError<TError>>
   ) {
     return useQuery<AxiosResponse<TData>, AxiosError<TError>>({
-      queryKey: key,
       queryFn: queryFunction,
+      staleTime: 1000,
       ...options,
     });
   }

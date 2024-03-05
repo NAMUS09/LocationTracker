@@ -47,7 +47,12 @@ const Map: React.FC<any> = (props) => {
     };
   }, [props.getpickup, props.getdropoff]);
 
-  return <div id="map" className="h-[90%]"></div>;
+  return (
+    <div
+      id="map"
+      className="w-full max-h-[20rem] sm:max-h-[25rem] md:max-h-[40rem] lg:h-[90%] "
+    ></div>
+  );
 };
 
 export default Map;

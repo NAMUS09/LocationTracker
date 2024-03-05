@@ -57,9 +57,9 @@ const LocationInfoBar = () => {
 
   return (
     <>
-      <div className="flex justify-between dark:text-white text-xs gap-3">
-        <div>Current Location</div>
-        <div className="flex gap-4">
+      <div className="sm:flex  justify-between dark:text-white text-xs gap-3">
+        <div className="py-2 sm:p-0">Current Location</div>
+        <div className="flex flex-wrap sm:gap-4 gap-2">
           {(Object.keys(location) as (keyof typeof location)[])
             .filter((key) => key !== "loading" && key !== "timestamp")
             .map((key, index) => (
