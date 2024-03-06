@@ -58,7 +58,7 @@ const Login = () => {
   };
   return (
     <>
-      <div className="bg-white px-4 py-8 shadow sm:rounded-lg sm:px-10">
+      <div className="bg-white dark:bg-slate-400 px-4 py-8 shadow sm:rounded-lg sm:px-10">
         <form className="space-y-3" onSubmit={handleSubmit(onSubmit)}>
           {fields.map((field) => (
             <Input
