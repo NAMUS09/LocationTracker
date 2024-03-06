@@ -6,6 +6,7 @@ import { logout } from "../store/authSlice";
 import axiosClient from "../axios";
 import DefaultResponse from "../constants/interfaces/defaultResponse";
 import { useRequestProcessor } from "../hooks/useRequestProcessor";
+import { removeLocation } from "../store/currentLocationSlice";
 
 const Logout = () => {
   const navigate = useNavigate();
@@ -18,6 +19,7 @@ const Logout = () => {
     {
       onSuccess: (res) => {
         dispatch(logout());
+        dispatch(removeLocation());
         toast.success(res.data.resultMessage.en);
         navigate("/login");
       },

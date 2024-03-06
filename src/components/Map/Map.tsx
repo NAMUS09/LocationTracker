@@ -1,51 +1,47 @@
 import { useEffect } from "react";
-import mapboxgl from "mapbox-gl";
+import mapboxgl, { LngLat, LngLatBoundsLike } from "mapbox-gl";
 
 mapboxgl.accessToken =
   "pk.eyJ1Ijoic3VtYW4wOSIsImEiOiJja3ZtYmZ3ZHMwd3B1MnBrbGFzMjJ2NGZuIn0.XIuFDC5Ofw7mGJFT2XHbGQ";
 
-const Map: React.FC<any> = (props) => {
-  const pickaddToMap = (
-    map: mapboxgl.Map,
-    coordinates: mapboxgl.LngLatLike
-  ) => {
-    // marker 1
+type LocationMarker = {
+  longitude: number | null;
+  latitude: number | null;
+};
+
+const Map: React.FC<LocationMarker> = (props) => {
+  const { longitude, latitude } = props;
+
+  const markLocation = (map: mapboxgl.Map, coordinates: LngLat) => {
+    // Create a default marker
     new mapboxgl.Marker().setLngLat(coordinates).addTo(map);
   };
 
-  const dropaddToMap = (
-    map: mapboxgl.Map,
-    coordinates: mapboxgl.LngLatLike
-  ) => {
-    // marker 2
-    new mapboxgl.Marker({ color: "#b40219" }).setLngLat(coordinates).addTo(map);
-  };
-
   useEffect(() => {
+    const coordinates = new LngLat(longitude ?? 80, latitude ?? 21);
+
     const map = new mapboxgl.Map({
       container: "map",
       style: "mapbox://styles/drakosi/ckvcwq3rwdw4314o3i2ho8tph",
-      center: [80, 21],
-      zoom: 3,
+      center: coordinates,
+      zoom: 6,
     });
 
-    if (props.getpickup) {
-      pickaddToMap(map, props.getpickup);
-    }
-    if (props.getdropoff) {
-      dropaddToMap(map, props.getdropoff);
-    }
-    //auto zoom
-    if (props.getpickup && props.getdropoff) {
-      map.fitBounds([props.getpickup, props.getdropoff], {
-        padding: 60,
-      });
+    if (latitude && props.longitude) {
+      // mark user current location
+      markLocation(map, coordinates);
+
+      const bounds: LngLatBoundsLike = [
+        [coordinates.lng - 0.00005, coordinates.lat - 0.00005],
+        [coordinates.lng + 0.00005, coordinates.lat + 0.00005],
+      ];
+      map.fitBounds(bounds, { padding: 60, maxZoom: 16 });
     }
 
     return () => {
       map.remove();
     };
-  }, [props.getpickup, props.getdropoff]);
+  }, [props]);
 
   return (
     <div

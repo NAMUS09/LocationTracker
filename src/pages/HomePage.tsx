@@ -4,11 +4,14 @@ import DefaultResponse from "../constants/interfaces/defaultResponse";
 import { Map } from "../components";
 import { GeoLocationSensorState } from "../hooks/useGeoLocation";
 import LocationHistoryBox from "../components/Location/LocationHistoryBox";
+import { useAppSelector } from "../hooks/useStore";
 
 export type Location = Pick<
   GeoLocationSensorState,
   Exclude<keyof GeoLocationSensorState, "loading" | "error">
->;
+> & {
+  _id: number;
+};
 
 type SuccessResponse = DefaultResponse & {
   locations: Location[];
@@ -16,6 +19,8 @@ type SuccessResponse = DefaultResponse & {
 
 const HomePage = () => {
   const { query } = useRequestProcessor();
+
+  const currentUserLocation = useAppSelector((state) => state.curentLocation);
 
   const { data, isFetching, isFetched, isError } = query<SuccessResponse>(
     () => axiosClient.get("/location/location-history"),
@@ -28,7 +33,7 @@ const HomePage = () => {
     <>
       <div className="flex w-full h-full flex-wrap md:flex-nowrap">
         <div className="map w-full md:w-2/3 lg:min-w-[66.66%] h-full p-2">
-          <Map key="MapId" />
+          <Map {...currentUserLocation} />
         </div>
         <div className="location-history w-full md:flex-grow p-2">
           {isFetching ? (

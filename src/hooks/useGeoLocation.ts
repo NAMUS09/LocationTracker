@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useAppDispatch } from "./useStore";
+import { setLocation } from "../store/currentLocationSlice";
 
 export interface IGeolocationPositionError {
   readonly code: number;
@@ -30,6 +32,7 @@ export interface GeoLocationSensorState extends GeolocationCoordinates {
 }
 
 const useGeolocation = (options?: PositionOptions): GeoLocationSensorState => {
+  const dispatch = useAppDispatch();
   const [state, setState] = useState<GeoLocationSensorState>({
     loading: true,
     accuracy: null,
@@ -57,6 +60,13 @@ const useGeolocation = (options?: PositionOptions): GeoLocationSensorState => {
         speed: position.coords.speed,
         timestamp: position.timestamp,
       });
+
+      dispatch(
+        setLocation({
+          longitude: position.coords.longitude,
+          latitude: position.coords.latitude,
+        })
+      );
     };
 
     const onError = (error: GeolocationPositionError) => {

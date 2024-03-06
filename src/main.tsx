@@ -18,6 +18,7 @@ import axios from "axios";
 import axiosClient, { axiosConfig } from "./axios.ts";
 import { logout } from "./store/authSlice.ts";
 import toast from "react-hot-toast";
+import { removeLocation } from "./store/currentLocationSlice.ts";
 
 const queryClient = new QueryClient();
 
@@ -80,6 +81,7 @@ const interceptor = (store: EnhancedStore) => {
         return axiosClient(config);
       } catch (error) {
         store.dispatch(logout());
+        store.dispatch(removeLocation());
         toast.error("Authorization Failed. Please login in");
         return Promise.reject(error);
       }

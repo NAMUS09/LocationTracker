@@ -1,10 +1,7 @@
 import { Location } from "../../pages/HomePage";
 
-interface LocationHisory extends Location {
-  _id?: string;
-}
 type LocationHisoryList = {
-  locations: LocationHisory[];
+  locations: Location[];
 };
 
 const LocationHistoryBox: React.FC<LocationHisoryList> = ({ locations }) => {
