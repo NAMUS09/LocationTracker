@@ -16,3 +16,5 @@ export interface LoginResponse extends DefaultResponse {
   accessToken: string;
   refreshToken: string;
 }
+
+export interface RegisterReponse extends DefaultResponse {}

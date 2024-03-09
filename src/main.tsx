@@ -19,6 +19,7 @@ import axiosClient, { axiosConfig } from "./axios.ts";
 import { logout } from "./store/authSlice.ts";
 import toast from "react-hot-toast";
 import { removeLocation } from "./store/currentLocationSlice.ts";
+import RegisterPage from "./pages/RegisterPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -46,6 +47,14 @@ const router = createBrowserRouter([
         element: (
           <Protected authentication={false}>
             <LoginPage />
+          </Protected>
+        ),
+      },
+      {
+        path: "/register",
+        element: (
+          <Protected authentication={false}>
+            <RegisterPage />
           </Protected>
         ),
       },

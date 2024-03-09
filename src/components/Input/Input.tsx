@@ -23,7 +23,7 @@ const Input: React.FC<InputProps> = ({
   return (
     <div>
       <label
-        className="block text-sm font-medium leading-6 text-gray-900"
+        className="block text-sm leading-6 text-gray-900 dark:text-orange-500 font-bold"
         htmlFor={id}
       >
         {label}
@@ -51,7 +51,7 @@ const Input: React.FC<InputProps> = ({
             placeholder:text-gray-400
             focus:ring-2
             focus:ring-inset
-            focus:ring-sky-600
+            focus:ring-gray-900
             sm:text-sm
             sm:leading-6
           `,

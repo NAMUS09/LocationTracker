@@ -37,14 +37,14 @@ const HomePage = () => {
 
   return (
     <>
-      <div className="flex w-full h-full flex-wrap md:flex-nowrap">
-        <div className="map w-full md:w-2/3 lg:min-w-[66.66%] h-full p-2">
+      <main className="flex w-full h-full flex-wrap md:flex-nowrap">
+        <section className="map w-full md:w-2/3 lg:min-w-[66.66%] h-full p-2">
           <Map
             currentLocation={currentUserLocation}
             otherLocation={pastLocation}
           />
-        </div>
-        <div className="location-history w-full md:flex-grow p-2">
+        </section>
+        <section className="location-history w-full md:flex-grow p-2">
           {isFetching ? (
             <h1>Fetching...</h1>
           ) : isError ? (
@@ -65,8 +65,8 @@ const HomePage = () => {
           ) : (
             <div>No location history</div>
           )}
-        </div>
-      </div>
+        </section>
+      </main>
     </>
   );
 };

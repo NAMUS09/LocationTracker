@@ -50,7 +50,7 @@ const Map: React.FC<LocationMarkers> = ({
       container: "map",
       style: "mapbox://styles/drakosi/ckvcwq3rwdw4314o3i2ho8tph",
       center: coordinates,
-      zoom: userLocationTracked ? 16 : 6,
+      zoom: userLocationTracked ? 16 : 3,
     });
 
     const bounds: LngLatBoundsLike = [

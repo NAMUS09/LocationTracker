@@ -1,6 +1,6 @@
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Input, Button } from "..";
 import axiosClient from "../../axios";
 import { LoginResponse } from "../../constants/interfaces/authResponse";
@@ -58,8 +58,8 @@ const Login = () => {
   };
   return (
     <>
-      <div className="bg-white dark:bg-slate-400 px-4 py-8 shadow sm:rounded-lg sm:px-10">
-        <form className="space-y-3" onSubmit={handleSubmit(onSubmit)}>
+      <div className="p-4 sm:rounded-lg sm:px-10">
+        <form className="space-y-4 py-4" onSubmit={handleSubmit(onSubmit)}>
           {fields.map((field) => (
             <Input
               key={field.id}
@@ -76,6 +76,14 @@ const Login = () => {
             {isPending ? "Signing in..." : "Sign in"}
           </Button>
         </form>
+        <p className="text-center">
+          Don't have an account?{" "}
+          <Link to="/register">
+            <span className="font-bold text-orange-500 cursor-pointer hover:underline">
+              Sign Up
+            </span>
+          </Link>
+        </p>
       </div>
     </>
   );
