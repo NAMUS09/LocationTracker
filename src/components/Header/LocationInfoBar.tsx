@@ -35,24 +35,24 @@ const LocationInfoBar = () => {
   useEffect(() => {
     if (!isLoading && location.longitude && location.latitude) {
       // uncomment this to save in database
-      // const {
-      //   longitude,
-      //   latitude,
-      //   speed,
-      //   accuracy,
-      //   altitude,
-      //   altitudeAccuracy,
-      //   heading,
-      // } = location;
-      // mutate({
-      //   speed,
-      //   accuracy,
-      //   altitude,
-      //   altitudeAccuracy,
-      //   longitude,
-      //   latitude,
-      //   heading,
-      // } as GeolocationCoordinates);
+      const {
+        longitude,
+        latitude,
+        speed,
+        accuracy,
+        altitude,
+        altitudeAccuracy,
+        heading,
+      } = location;
+      mutate({
+        speed,
+        accuracy,
+        altitude,
+        altitudeAccuracy,
+        longitude,
+        latitude,
+        heading,
+      } as GeolocationCoordinates);
     }
   }, [isLoading]);
 
