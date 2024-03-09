@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import mapboxgl, { LngLat, LngLatBoundsLike } from "mapbox-gl";
 
 mapboxgl.accessToken =
@@ -9,44 +9,84 @@ type LocationMarker = {
   latitude: number | null;
 };
 
-const Map: React.FC<LocationMarker> = (props) => {
-  const { longitude, latitude } = props;
+type LocationMarkers = {
+  currentLocation: LocationMarker;
+  otherLocation?: LocationMarker | null;
+};
+
+const Map: React.FC<LocationMarkers> = ({
+  currentLocation,
+  otherLocation = null,
+}) => {
+  const [userLocationTracked, setUserLocationTracked] = useState(false);
+  const { longitude, latitude } = currentLocation;
 
   const markLocation = (map: mapboxgl.Map, coordinates: LngLat) => {
     // Create a default marker
     new mapboxgl.Marker().setLngLat(coordinates).addTo(map);
   };
 
+  const pastMarkLocation = (map: mapboxgl.Map, coordinates: LngLat) => {
+    // Create a past location marker
+    new mapboxgl.Marker({
+      color: "#FFA500",
+    })
+      .setLngLat(coordinates)
+      .addTo(map);
+  };
+
   useEffect(() => {
-    const coordinates = new LngLat(longitude ?? 80, latitude ?? 21);
+    const defaultCoordinates = new LngLat(80, 21);
+    const coordinates =
+      !!longitude && !!latitude
+        ? new LngLat(longitude, latitude)
+        : defaultCoordinates;
+
+    if (coordinates !== defaultCoordinates) {
+      setUserLocationTracked(true);
+    }
 
     const map = new mapboxgl.Map({
       container: "map",
       style: "mapbox://styles/drakosi/ckvcwq3rwdw4314o3i2ho8tph",
       center: coordinates,
-      zoom: 6,
+      zoom: userLocationTracked ? 16 : 6,
     });
 
-    if (latitude && props.longitude) {
+    const bounds: LngLatBoundsLike = [
+      [coordinates.lng - 0.00005, coordinates.lat - 0.00005],
+      [coordinates.lng + 0.00005, coordinates.lat + 0.00005],
+    ];
+
+    if (otherLocation?.latitude && otherLocation?.longitude) {
+      const pastLocationCoordinates = new LngLat(
+        otherLocation.longitude,
+        otherLocation.latitude
+      );
+      pastMarkLocation(map, pastLocationCoordinates);
+
+      bounds[1] = [
+        pastLocationCoordinates.lng + 0.00005,
+        pastLocationCoordinates.lat + 0.00005,
+      ];
+    }
+
+    // current location
+    if (latitude && longitude) {
       // mark user current location
       markLocation(map, coordinates);
-
-      const bounds: LngLatBoundsLike = [
-        [coordinates.lng - 0.00005, coordinates.lat - 0.00005],
-        [coordinates.lng + 0.00005, coordinates.lat + 0.00005],
-      ];
       map.fitBounds(bounds, { padding: 60, maxZoom: 16 });
     }
 
     return () => {
       map.remove();
     };
-  }, [props]);
+  }, [longitude, latitude, otherLocation?.longitude, otherLocation?.latitude]);
 
   return (
     <div
       id="map"
-      className="w-full max-h-[20rem] sm:max-h-[25rem] md:max-h-[40rem] lg:h-[90%] "
+      className="w-full max-h-[20rem] sm:max-h-[25rem] md:max-h-[40rem] lg:h-full lg:max-h-[50rem]"
     ></div>
   );
 };

@@ -1,18 +1,47 @@
-import { Location } from "../../pages/HomePage";
+import { useState } from "react";
+import { LocationHistory } from "../../pages/HomePage";
+import moment from "moment";
+import { HiLocationMarker } from "react-icons/hi";
 
 type LocationHisoryList = {
-  locations: Location[];
+  locations: LocationHistory[];
+  setPastLocation: React.Dispatch<
+    React.SetStateAction<{
+      longitude: number | null;
+      latitude: number | null;
+    } | null>
+  >;
 };
 
-const LocationHistoryBox: React.FC<LocationHisoryList> = ({ locations }) => {
+const LocationHistoryBox: React.FC<LocationHisoryList> = ({
+  locations,
+  setPastLocation,
+}) => {
+  const [selectedPastLocation, setSelectedPastLocation] = useState<
+    string | null
+  >(null);
+  const userLocale = navigator.language;
+
+  const handleClick = (location: LocationHistory) => {
+    const { _id, longitude, latitude } = location;
+    setPastLocation(() =>
+      selectedPastLocation === location._id ? null : { longitude, latitude }
+    );
+    setSelectedPastLocation(selectedPastLocation === location._id ? null : _id);
+  };
   return (
     <>
-      <div className="font-bold">Location History</div>
       <div className="flex flex-col gap-1">
         {locations.map((location) => {
           return (
             <div
-              className="locationCard rounded overflow-hidden shadow-lg p-3 text-xs grid grid-cols-2 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-600 hover:bg-gray-200"
+              className={
+                (selectedPastLocation === location._id
+                  ? "dark:bg-gray-600 bg-gray-300 "
+                  : "dark:bg-gray-800 bg-gray-200 ") +
+                "locationCard rounded overflow-hidden shadow-lg p-3 lg:gap-[0.2rem] text-xs grid grid-cols-2 dark:text-white dark:hover:bg-gray-600 hover:bg-gray-200 cursor-pointer relative"
+              }
+              onClick={() => handleClick(location)}
               key={location._id}
             >
               {(Object.keys(location) as (keyof typeof location)[]).map(
@@ -23,10 +52,19 @@ const LocationHistoryBox: React.FC<LocationHisoryList> = ({ locations }) => {
                         {key} :{" "}
                       </span>
                       <span>
-                        {(location[key] as unknown as string) ?? "unknown"}
+                        {key == "CapturedOn"
+                          ? moment(
+                              location[key] as unknown as moment.MomentInput
+                            )
+                              .locale(userLocale)
+                              .format("LLL")
+                          : (location[key] as unknown as string) ?? "unknown"}
                       </span>
                     </div>
                   )
+              )}
+              {selectedPastLocation === location._id && (
+                <HiLocationMarker className="text-orange-500 text-2xl absolute right-0 top-1/2 -translate-x-1/2 -translate-y-1/2" />
               )}
             </div>
           );
