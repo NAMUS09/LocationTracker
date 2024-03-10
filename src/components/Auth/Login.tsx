@@ -8,6 +8,7 @@ import { useRequestProcessor } from "../../hooks/useRequestProcessor";
 import { useAppDispatch } from "../../hooks/useStore";
 import { login } from "../../store/authSlice";
 import { loginFields } from "../../constants";
+import DefaultResponse from "../../constants/interfaces/defaultResponse";
 
 const fields = loginFields;
 
@@ -33,24 +34,24 @@ const Login = () => {
     } as LoginForm,
   });
 
-  const { mutate, isPending } = useMutate<LoginResponse, LoginForm>(
-    ["LOGIN"],
-    (formData) => axiosClient.post("/user/login", formData),
-    {
-      onSuccess: (res) => {
-        reset();
-        const { user, resultMessage } = res.data;
-        // setUser(user);
-        dispatch(login(user));
-        toast.success(resultMessage.en);
-        navigate("/");
-      },
-      onError: (err) => {
-        console.log(err);
-        toast.error("Failed to Login");
-      },
-    }
-  );
+  const { mutate, isPending } = useMutate<
+    LoginResponse,
+    LoginForm,
+    DefaultResponse
+  >(["LOGIN"], (formData) => axiosClient.post("/user/login", formData), {
+    onSuccess: (res) => {
+      reset();
+      const { user, resultMessage } = res.data;
+      // setUser(user);
+      dispatch(login(user));
+      toast.success(resultMessage.en);
+      navigate("/");
+    },
+    onError: (err) => {
+      console.log(err.response?.data.resultMessage.en);
+      toast.error(err.response?.data.resultMessage.en ?? "Failed to Login");
+    },
+  });
 
   const onSubmit: SubmitHandler<FieldValues> = async (formLoginData) => {
     const loginform = { ...formLoginData } as LoginForm;
@@ -63,15 +64,19 @@ const Login = () => {
           {fields.map((field) => (
             <Input
               key={field.id}
-              label={field.labelText}
-              id={field.id}
-              type={field.type}
-              required={field.isRequired}
+              {...field}
               register={register}
               errors={errors}
               disabled={isPending}
             />
           ))}
+          <p className="text-end">
+            <Link to="/register">
+              <span className="font-bold text-orange-500 cursor-pointer italic hover:underline">
+                Forgot Password ?
+              </span>
+            </Link>
+          </p>
           <Button type="submit" fullWidth disabled={isPending}>
             {isPending ? "Signing in..." : "Sign in"}
           </Button>

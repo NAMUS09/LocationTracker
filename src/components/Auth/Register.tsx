@@ -7,6 +7,7 @@ import { useRequestProcessor } from "../../hooks/useRequestProcessor";
 import axiosClient from "../../axios";
 import { RegisterReponse } from "../../constants/interfaces/authResponse";
 import toast from "react-hot-toast";
+import { useRef } from "react";
 
 const fields = signupFields;
 
@@ -27,6 +28,7 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
     reset,
+    watch,
   } = useForm<FieldValues>({
     defaultValues: {
       name: "",
@@ -35,6 +37,9 @@ const Register = () => {
       confirmPassword: "",
     } as RegisterForm,
   });
+
+  const password = useRef({});
+  password.current = watch("password", "");
 
   const { mutate, isPending } = useMutate<RegisterReponse, RegisterForm>(
     ["REGISTER"],
@@ -60,10 +65,6 @@ const Register = () => {
       ...formRegisterData,
       language: "en",
     } as RegisterForm;
-    if (registerForm.password !== registerForm.confirmPassword) {
-      toast.error("Password and confirm password doesn't match");
-      return;
-    }
     mutate(registerForm);
   };
   return (
@@ -73,10 +74,10 @@ const Register = () => {
           {fields.map((field) => (
             <Input
               key={field.id}
-              label={field.labelText}
-              id={field.id}
-              type={field.type}
-              required={field.isRequired}
+              {...field}
+              validationWatchValue={
+                field.id === "confirmPassword" ? password.current : ""
+              }
               register={register}
               errors={errors}
               disabled={isPending}

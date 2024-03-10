@@ -1,35 +1,33 @@
-const signupFields = [
+import {
+  EmailField,
+  PasswordField,
+  PasswordRegex,
+  PasswordValidationMessage,
+} from "./commonFields";
+import { Fields } from "./interfaces/fields";
+
+const signupFields: Fields[] = [
   {
-    labelText: "Full Name",
+    label: "Full Name",
     id: "name",
-    name: "name",
     type: "text",
-    isRequired: true,
+    required: true,
     placeholder: "fullname",
+    requiredMessage: "Full Name is required",
   },
+  EmailField,
+  PasswordField,
   {
-    labelText: "Email address",
-    id: "email",
-    name: "email",
-    type: "email",
-    isRequired: true,
-    placeholder: "Email address",
-  },
-  {
-    labelText: "Password",
-    id: "password",
-    name: "password",
-    type: "password",
-    isRequired: true,
-    placeholder: "Password",
-  },
-  {
-    labelText: "Confirm Password",
+    label: "Confirm Password",
     id: "confirmPassword",
-    name: "confirmPassword",
     type: "password",
-    isRequired: true,
+    required: true,
     placeholder: "Confirm Password",
+    pattern: PasswordRegex,
+    validate: true,
+    requiredMessage: "Confirm Password is required",
+    patternMessage: PasswordValidationMessage,
+    validationMessage: "The passwords do not match",
   },
 ];
 

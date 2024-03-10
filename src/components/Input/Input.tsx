@@ -1,14 +1,26 @@
 import clsx from "clsx";
-import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
+import {
+  FieldErrors,
+  FieldValues,
+  RegisterOptions,
+  UseFormRegister,
+} from "react-hook-form";
+import { ErrorMessage } from "@hookform/error-message";
 
 interface InputProps {
   label: string;
   id: string;
+  register: UseFormRegister<FieldValues>;
   type?: string;
   required?: boolean;
-  register: UseFormRegister<FieldValues>;
   errors: FieldErrors;
   disabled?: boolean;
+  pattern?: RegExp;
+  validate?: boolean;
+  validationWatchValue?: {};
+  requiredMessage?: string;
+  patternMessage?: string;
+  validationMessage?: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -19,7 +31,35 @@ const Input: React.FC<InputProps> = ({
   register,
   errors,
   disabled,
+  pattern,
+  validate = false,
+  validationWatchValue,
+  requiredMessage,
+  patternMessage,
+  validationMessage,
 }) => {
+  const registerOptions: RegisterOptions<FieldValues, string> = {};
+
+  // required
+  required &&
+    (registerOptions.required = requiredMessage
+      ? requiredMessage
+      : "This is required");
+
+  // pattern
+  pattern &&
+    (registerOptions.pattern = {
+      value: pattern,
+      message: patternMessage ? patternMessage : "Pattern is invalid",
+    });
+
+  // validate
+  validate &&
+    (registerOptions.validate = (value) =>
+      value === validationWatchValue ||
+      validationMessage ||
+      "The values do not match");
+
   return (
     <div>
       <label
@@ -34,7 +74,7 @@ const Input: React.FC<InputProps> = ({
           type={type}
           autoComplete={id}
           disabled={disabled}
-          {...register(id, { required })}
+          {...register(id, registerOptions)}
           className={clsx(
             `
             form-input
@@ -59,6 +99,34 @@ const Input: React.FC<InputProps> = ({
             disabled && "opacity-50 cursor-default"
           )}
         />
+
+        {/* For single Erorr Message */}
+        <ErrorMessage
+          errors={errors}
+          name={id}
+          render={({ message }) => (
+            <p
+              className=" text-red-900 italic text-sm"
+              dangerouslySetInnerHTML={{
+                __html: `${message}`,
+              }}
+            ></p>
+          )}
+        />
+
+        {/* For multiple Erorr Message */}
+        {/* <ErrorMessage
+          errors={errors}
+          name={id}
+          render={({ messages }) =>
+            messages &&
+            Object.entries(messages).map(([type, message]) => (
+              <p className="text-red-600 italic" key={type}>
+                {message}
+              </p>
+            ))
+          }
+        /> */}
       </div>
     </div>
   );

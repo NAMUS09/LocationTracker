@@ -1,29 +1,6 @@
-interface LoginFields {
-  labelText: string;
-  id: string;
-  name: string;
-  type: string;
-  isRequired: boolean;
-  placeholder: string;
-}
+import { EmailField, PasswordField } from "./commonFields";
+import { Fields } from "./interfaces/fields";
 
-const loginFields: LoginFields[] = [
-  {
-    labelText: "Email address",
-    id: "email",
-    name: "email",
-    type: "email",
-    isRequired: true,
-    placeholder: "Email address",
-  },
-  {
-    labelText: "Password",
-    id: "password",
-    name: "password",
-    type: "password",
-    isRequired: true,
-    placeholder: "Password",
-  },
-];
+const loginFields: Fields[] = [EmailField, PasswordField];
 
 export default loginFields;

@@ -9,12 +9,12 @@ const RegisterPage = () => {
       </div>
       <div className="w-full  col-span-6">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <h2 className="mt-6 text-center text-2xl font-bold tracking-tight text-gray-900 dark:text-slate-200">
+          <h2 className="text-center text-2xl font-bold tracking-tight text-gray-900 dark:text-slate-200">
             Create an
             <span className="font-bold text-orange-500"> account</span>
           </h2>
         </div>
-        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+        <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-md">
           <Register />
         </div>
       </div>
