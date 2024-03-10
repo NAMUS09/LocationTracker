@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import mapboxgl, { LngLat, LngLatBoundsLike } from "mapbox-gl";
+import { useAppSelector } from "../../hooks/useStore";
 
 mapboxgl.accessToken =
   "pk.eyJ1Ijoic3VtYW4wOSIsImEiOiJja3ZtYmZ3ZHMwd3B1MnBrbGFzMjJ2NGZuIn0.XIuFDC5Ofw7mGJFT2XHbGQ";
@@ -10,16 +11,13 @@ type LocationMarker = {
 };
 
 type LocationMarkers = {
-  currentLocation: LocationMarker;
   otherLocation?: LocationMarker | null;
 };
 
-const Map: React.FC<LocationMarkers> = ({
-  currentLocation,
-  otherLocation = null,
-}) => {
+const Map: React.FC<LocationMarkers> = ({ otherLocation = null }) => {
   const [userLocationTracked, setUserLocationTracked] = useState(false);
-  const { longitude, latitude } = currentLocation;
+  const currentUserLocation = useAppSelector((state) => state.currentLocation);
+  const { longitude, latitude } = currentUserLocation;
 
   const markLocation = (map: mapboxgl.Map, coordinates: LngLat) => {
     // Create a default marker

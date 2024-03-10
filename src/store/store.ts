@@ -5,7 +5,7 @@ import currentLocationSlice from "./currentLocationSlice";
 const store = configureStore({
   reducer: {
     auth: authSlice,
-    curentLocation: currentLocationSlice,
+    currentLocation: currentLocationSlice,
   },
 });
 

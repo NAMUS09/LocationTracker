@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { LocationHistory } from "../../pages/HomePage";
 import moment from "moment";
 import { HiLocationMarker } from "react-icons/hi";
+import { LocationHistory } from "./LocationHistory";
 
 type LocationHisoryList = {
   locations: LocationHistory[];
@@ -37,9 +37,9 @@ const LocationHistoryBox: React.FC<LocationHisoryList> = ({
             <div
               className={
                 (selectedPastLocation === location._id
-                  ? "dark:bg-gray-600 bg-gray-300 "
-                  : "dark:bg-gray-800 bg-gray-200 ") +
-                "locationCard rounded overflow-hidden shadow-lg p-3 lg:gap-[0.2rem] text-xs grid grid-cols-2 dark:text-white dark:hover:bg-gray-600 hover:bg-gray-200 cursor-pointer relative"
+                  ? "dark:bg-gray-600 bg-gray-400 "
+                  : "dark:bg-gray-800 hover:bg-gray-300 dark:hover:bg-gray-600   ") +
+                "locationCard rounded overflow-hidden shadow-md p-[.68rem] lg:gap-[0.2rem] text-xs grid grid-cols-2 dark:text-white cursor-pointer relative"
               }
               onClick={() => handleClick(location)}
               key={location._id}

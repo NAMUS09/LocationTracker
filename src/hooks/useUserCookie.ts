@@ -1,7 +1,7 @@
 import { useCookies } from "react-cookie";
 import { IUser } from "../constants/interfaces/authResponse";
 
-export type UserDataCookie = Pick<IUser, "email" | "name">;
+export type UserDataCookie = Pick<IUser, "email" | "name"> & { id: string };
 
 function useUserCookie() {
   const [userCookie, setUserCookie, removeCookie] = useCookies(["user"]);

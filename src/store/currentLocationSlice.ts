@@ -18,13 +18,9 @@ const currentLocationSlice = createSlice({
       state.longitude = action.payload.longitude;
       state.latitude = action.payload.latitude;
     },
-    removeLocation: (state) => {
-      state.latitude = null;
-      state.longitude = null;
-    },
   },
 });
 
-export const { setLocation, removeLocation } = currentLocationSlice.actions;
+export const { setLocation } = currentLocationSlice.actions;
 
 export default currentLocationSlice.reducer;

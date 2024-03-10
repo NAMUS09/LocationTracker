@@ -1,6 +1,6 @@
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import toast from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Input, Button } from "..";
 import axiosClient from "../../axios";
 import { LoginResponse } from "../../constants/interfaces/authResponse";
@@ -18,7 +18,6 @@ interface LoginForm {
 }
 
 const Login = () => {
-  const navigate = useNavigate();
   const { useMutate } = useRequestProcessor();
   const dispatch = useAppDispatch();
 
@@ -42,10 +41,8 @@ const Login = () => {
     onSuccess: (res) => {
       reset();
       const { user, resultMessage } = res.data;
-      // setUser(user);
       dispatch(login(user));
       toast.success(resultMessage.en);
-      navigate("/");
     },
     onError: (err) => {
       console.log(err.response?.data.resultMessage.en);
@@ -70,13 +67,13 @@ const Login = () => {
               disabled={isPending}
             />
           ))}
-          <p className="text-end">
-            <Link to="/register">
+          {/* <p className="text-end">
+            <Link to="/reset-password">
               <span className="font-bold text-orange-500 cursor-pointer italic hover:underline">
                 Forgot Password ?
               </span>
             </Link>
-          </p>
+          </p> */}
           <Button type="submit" fullWidth disabled={isPending}>
             {isPending ? "Signing in..." : "Sign in"}
           </Button>

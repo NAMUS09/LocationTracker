@@ -1,7 +1,11 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {
+  Navigate,
+  RouterProvider,
+  createBrowserRouter,
+} from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { CookiesProvider } from "react-cookie";
 
@@ -10,16 +14,20 @@ import App from "./App.tsx";
 import HomePage from "./pages/HomePage.tsx";
 import LoginPage from "./pages/LoginPage.tsx";
 import store from "./store/store.ts";
-import Protected from "./components/Protected.tsx";
-import ProtectedLayout from "./components/ProtectedLayout.tsx";
+import Protected from "./components/Auth/Protected.tsx";
+import ProtectedLayout from "./components/Layout/ProtectedLayout.tsx";
 import ToasterContext from "./context/Toast.tsx";
 import { EnhancedStore } from "@reduxjs/toolkit";
 import axios from "axios";
 import axiosClient, { axiosConfig } from "./axios.ts";
 import { logout } from "./store/authSlice.ts";
 import toast from "react-hot-toast";
-import { removeLocation } from "./store/currentLocationSlice.ts";
+
 import RegisterPage from "./pages/RegisterPage.tsx";
+import AccountPageLayout from "./components/Layout/AccountPageLayout.tsx";
+import ProfileInfoPartialPage from "./pages/partialPages/ProfileInfoPartialPage.tsx";
+import TrackingPreferencesPartialPage from "./pages/partialPages/TrackingPreferencesPartialPage.tsx";
+import LocationHistoryPartialPage from "./pages/partialPages/LocationHistoryPartialPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -39,6 +47,28 @@ const router = createBrowserRouter([
           {
             path: "/",
             element: <HomePage />,
+          },
+          {
+            path: "/account",
+            element: <AccountPageLayout />,
+            children: [
+              {
+                path: "/account/",
+                element: <Navigate to="profile" />,
+              },
+              {
+                path: "/account/profile",
+                element: <ProfileInfoPartialPage />,
+              },
+              {
+                path: "/account/tracking",
+                element: <TrackingPreferencesPartialPage />,
+              },
+              {
+                path: "/account/location-history",
+                element: <LocationHistoryPartialPage />,
+              },
+            ],
           },
         ],
       },
@@ -90,7 +120,6 @@ const interceptor = (store: EnhancedStore) => {
         return axiosClient(config);
       } catch (error) {
         store.dispatch(logout());
-        store.dispatch(removeLocation());
         toast.error("Authorization Failed. Please login in");
         return Promise.reject(error);
       }

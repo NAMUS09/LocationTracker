@@ -20,7 +20,7 @@ export function useRequestProcessor() {
   ) {
     return useQuery<AxiosResponse<TData>, AxiosError<TError>>({
       queryFn: queryFunction,
-      staleTime: 1000,
+      staleTime: Infinity,
       ...options,
     });
   }

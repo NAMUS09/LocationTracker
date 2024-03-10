@@ -4,10 +4,10 @@ import Register from "../components/Auth/Register";
 const RegisterPage = () => {
   return (
     <main className="flex flex-wrap md:flex-nowrap h-full justify-around items-center p-12">
-      <div className="w-full duration-150  hover:scale-[120%] col-span-6">
+      <div className="w-full duration-150  hover:scale-[120%">
         <img src={RegisterImage} alt="register page image" />
       </div>
-      <div className="w-full  col-span-6">
+      <div className="w-full">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <h2 className="text-center text-2xl font-bold tracking-tight text-gray-900 dark:text-slate-200">
             Create an
