@@ -29,7 +29,8 @@ const LocationInfoBar = () => {
         console.log(err.message);
         toast.error("Failed to save location");
       },
-    }
+    },
+    ["locationHistory"]
   );
 
   useEffect(() => {

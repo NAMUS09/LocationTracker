@@ -1,5 +1,4 @@
 import {
-  InvalidateQueryFilters,
   MutationFunction,
   MutationKey,
   QueryFunction,
@@ -8,6 +7,7 @@ import {
   useQueryClient,
   UseMutationOptions,
   UseQueryOptions,
+  QueryKey,
 } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 
@@ -28,17 +28,22 @@ export function useRequestProcessor() {
   function useMutate<TData, TVar = void, TError = any>(
     key: MutationKey,
     mutationFunction: MutationFunction<AxiosResponse<TData>, TVar>,
+
     options: UseMutationOptions<
       AxiosResponse<TData>,
       AxiosError<TError>,
       TVar
-    > = {}
+    > = {},
+    invalidateQueryKey?: QueryKey
   ) {
     return useMutation<AxiosResponse<TData>, AxiosError<TError>, TVar>({
       mutationKey: key,
       mutationFn: mutationFunction,
       onSettled: () =>
-        queryClient.invalidateQueries(key as InvalidateQueryFilters),
+        invalidateQueryKey !== undefined &&
+        queryClient.invalidateQueries({
+          queryKey: invalidateQueryKey,
+        }),
       ...options,
     });
   }

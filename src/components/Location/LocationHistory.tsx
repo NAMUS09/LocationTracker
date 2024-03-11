@@ -34,7 +34,7 @@ const LocationHistory: React.FC<LocationHistoryProps> = ({
   const { data, status } = query<SuccessResponse>(
     () => axiosClient.get("/location/location-history"),
     {
-      queryKey: [],
+      queryKey: ["locationHistory"],
       refetchOnWindowFocus: false,
     }
   );
