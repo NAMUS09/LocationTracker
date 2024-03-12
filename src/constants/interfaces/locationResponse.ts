@@ -10,6 +10,6 @@ export type LocationHistory = Pick<
 };
 
 export type SuccessLocationHistoryResponse = DefaultResponse & {
-  page: number;
+  nextPage: number;
   locations: LocationHistory[];
 };

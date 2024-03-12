@@ -36,7 +36,7 @@ export const AccountSideBar = () => {
               <Link
                 key={menu.name}
                 className={
-                  "py-3 text-left px-12 rounded-md hover:text-white " +
+                  "py-3 text-left px-12 rounded-md hover:text-white text-red-500 " +
                   (menu.current
                     ? "bg-gray-900 text-white"
                     : "hover:bg-gray-700")

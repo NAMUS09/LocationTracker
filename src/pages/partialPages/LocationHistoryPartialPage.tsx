@@ -20,23 +20,32 @@ const LocationHistoryPartialPage = () => {
   const userLocale = navigator.language;
   const { useInfinite } = useRequestProcessor();
 
-  const { data, isLoading, isError, isFetchingNextPage, fetchNextPage } =
-    useInfinite<SuccessLocationHistoryResponse>(
-      ({ pageParam = 0 }) =>
-        axiosClient.post("/location/location-history", {
-          limit: 12,
-          page: pageParam,
-        }),
-      {
-        initialPageParam: 1,
-        queryKey: ["LocationHistoryInfinite"],
-        refetchOnWindowFocus: false,
-        getNextPageParam: (axiosResponse, allPages) => {
-          const responseData = axiosResponse.data;
-          return responseData.locations.length > 0 && responseData.page + 1;
-        },
-      }
-    );
+  const {
+    data,
+    isLoading,
+    isError,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+  } = useInfinite<SuccessLocationHistoryResponse>(
+    ({ pageParam = 0 }) =>
+      axiosClient.post("/location/location-history", {
+        limit: 12,
+        page: pageParam,
+      }),
+    {
+      initialPageParam: 1,
+      queryKey: ["LocationHistoryInfinite"],
+      refetchOnWindowFocus: false,
+      getNextPageParam: (axiosResponse, allPages) => {
+        const responseData = axiosResponse.data;
+
+        if (responseData.nextPage == 0) return undefined;
+
+        return responseData.nextPage;
+      },
+    }
+  );
 
   useEffect(() => {
     const handleScroll = () => {
@@ -112,6 +121,19 @@ const LocationHistoryPartialPage = () => {
           {!isLoading && isFetchingNextPage && (
             <tfoot>
               <TableSkeleton row={3} column={headers.length} />
+            </tfoot>
+          )}
+          {!hasNextPage && (
+            <tfoot>
+              <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+                <td
+                  colSpan={headers.length}
+                  className="text-center py-3 text-red-500"
+                >
+                  {" "}
+                  End of the road! No more locations to fetch.
+                </td>
+              </tr>
             </tfoot>
           )}
         </table>
