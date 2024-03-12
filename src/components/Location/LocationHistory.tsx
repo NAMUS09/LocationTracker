@@ -1,21 +1,9 @@
 import React from "react";
 import axiosClient from "../../axios";
 import { useRequestProcessor } from "../../hooks/useRequestProcessor";
-import DefaultResponse from "../../constants/interfaces/defaultResponse";
-import { GeoLocationSensorState } from "../../hooks/useGeoLocation";
+
 import LocationHistoryBox from "./LocationHistoryBox";
-
-export type LocationHistory = Pick<
-  GeoLocationSensorState,
-  Exclude<keyof GeoLocationSensorState, "loading" | "error">
-> & {
-  _id: string;
-  CapturedOn: string;
-};
-
-type SuccessResponse = DefaultResponse & {
-  locations: LocationHistory[];
-};
+import { SuccessLocationHistoryResponse } from "../../constants/interfaces/locationResponse";
 
 type LocationHistoryProps = {
   setPastLocation: React.Dispatch<
@@ -31,10 +19,10 @@ const LocationHistory: React.FC<LocationHistoryProps> = ({
 }) => {
   const { query } = useRequestProcessor();
 
-  const { data, status } = query<SuccessResponse>(
-    () => axiosClient.get("/location/location-history"),
+  const { data, status } = query<SuccessLocationHistoryResponse>(
+    () => axiosClient.post("/location/location-history"),
     {
-      queryKey: ["locationHistory"],
+      queryKey: ["LocationHistory"],
       refetchOnWindowFocus: false,
     }
   );

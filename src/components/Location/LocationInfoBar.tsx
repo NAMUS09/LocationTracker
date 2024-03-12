@@ -30,7 +30,7 @@ const LocationInfoBar = () => {
         toast.error("Failed to save location");
       },
     },
-    ["locationHistory"]
+    ["LocationHistory"]
   );
 
   useEffect(() => {

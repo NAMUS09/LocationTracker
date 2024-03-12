@@ -8,6 +8,9 @@ import {
   UseMutationOptions,
   UseQueryOptions,
   QueryKey,
+  useInfiniteQuery,
+  UseInfiniteQueryOptions,
+  InfiniteData,
 } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 
@@ -19,6 +22,30 @@ export function useRequestProcessor() {
     options: UseQueryOptions<AxiosResponse<TData>, AxiosError<TError>>
   ) {
     return useQuery<AxiosResponse<TData>, AxiosError<TError>>({
+      queryFn: queryFunction,
+      staleTime: Infinity,
+      ...options,
+    });
+  }
+
+  function useInfinite<TData, TError = any, TPageParam = unknown>(
+    queryFunction: QueryFunction<AxiosResponse<TData>, QueryKey, TPageParam>,
+    options: UseInfiniteQueryOptions<
+      AxiosResponse<TData>,
+      AxiosError<TError>,
+      InfiniteData<AxiosResponse<TData>, TPageParam>,
+      AxiosResponse<TData>,
+      QueryKey,
+      TPageParam
+    >
+  ) {
+    return useInfiniteQuery<
+      AxiosResponse<TData>,
+      AxiosError<TError>,
+      InfiniteData<AxiosResponse<TData>, TPageParam>,
+      QueryKey,
+      TPageParam
+    >({
       queryFn: queryFunction,
       staleTime: Infinity,
       ...options,
@@ -48,5 +75,5 @@ export function useRequestProcessor() {
     });
   }
 
-  return { query, useMutate };
+  return { query, useInfinite, useMutate };
 }
