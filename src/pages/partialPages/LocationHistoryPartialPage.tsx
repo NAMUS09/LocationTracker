@@ -2,16 +2,29 @@ import moment from "moment";
 import axiosClient from "../../axios";
 import { SuccessLocationHistoryResponse } from "../../constants/interfaces/locationResponse";
 import { useRequestProcessor } from "../../hooks/useRequestProcessor";
+import { useEffect, useRef } from "react";
+import { TableSkeleton } from "../../components";
+
+const headers = [
+  "Accuracy",
+  "Altitude",
+  "Altitude Accuracy",
+  "Heading",
+  "Latitude",
+  "Longitude",
+  "Captured On",
+];
 
 const LocationHistoryPartialPage = () => {
+  const divRef = useRef<HTMLDivElement>(null);
   const userLocale = navigator.language;
   const { useInfinite } = useRequestProcessor();
 
-  const { data, isLoading, isError, fetchNextPage } =
+  const { data, isLoading, isError, isFetchingNextPage, fetchNextPage } =
     useInfinite<SuccessLocationHistoryResponse>(
       ({ pageParam = 0 }) =>
         axiosClient.post("/location/location-history", {
-          limit: 10,
+          limit: 12,
           page: pageParam,
         }),
       {
@@ -25,52 +38,83 @@ const LocationHistoryPartialPage = () => {
       }
     );
 
-  if (isLoading) return "Loading";
-  if (isError) return "Error";
+  useEffect(() => {
+    const handleScroll = () => {
+      if (!divRef.current) return;
+
+      const { scrollTop, clientHeight, scrollHeight } = divRef.current;
+
+      if (scrollTop + clientHeight + 20 >= scrollHeight) {
+        fetchNextPage();
+      }
+    };
+
+    if (!divRef.current) return;
+
+    divRef.current.addEventListener("scroll", handleScroll);
+
+    return () => {
+      if (!divRef.current) return;
+      divRef.current.removeEventListener("scroll", handleScroll);
+    };
+  }, [divRef.current]);
 
   const locationHistory = data?.pages;
 
   return (
     <>
-      <div>
-        <button onClick={() => fetchNextPage()}>Fetch more</button>
-        <div className="h-full">
-          <div className="font-bold">Location History</div>
-          <div className="h-full overflow-y-auto">
-            <table className="w-full">
-              <thead>
-                <tr>
-                  <th>Accuracy</th>
-                  <th>Altitude</th>
-                  <th>Altitude Accuracy</th>
-                  <th>Heading</th>
-                  <th>Latitude</th>
-                  <th>Longitude</th>
-                  <th>Captured On</th>
+      <div
+        className=" relative w-full h-full shadow-md sm:rounded-lg overflow-auto"
+        ref={divRef}
+      >
+        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400 sticky top-0">
+            <tr>
+              {headers.map((header) => (
+                <th key={header} scope="col" className="px-6 py-3">
+                  {header}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {isLoading && <TableSkeleton row={15} column={headers.length} />}
+
+            {isError && <h1>Error...</h1>}
+
+            {locationHistory?.map((group) =>
+              group.data.locations.map((location) => (
+                <tr
+                  key={location._id}
+                  className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                >
+                  <td className="px-6 py-3">
+                    {location.accuracy ?? "unknown"}
+                  </td>
+                  <td className="px-6 py-3">
+                    {location.altitude ?? "unknown"}
+                  </td>
+                  <td className="px-6 py-3">
+                    {location.altitudeAccuracy ?? "unknown"}
+                  </td>
+                  <td className="px-6 py-3">{location.heading ?? "unknown"}</td>
+                  <td className="px-6 py-3">{location.latitude}</td>
+                  <td className="px-6 py-3">{location.longitude}</td>
+                  <td className="px-6 py-3">
+                    {moment(location.CapturedOn)
+                      .locale(userLocale)
+                      .format("LLL")}
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {locationHistory?.map((group) =>
-                  group.data.locations.map((location) => (
-                    <tr key={location._id}>
-                      <td>{location.accuracy ?? "unknown"}</td>
-                      <td>{location.altitude ?? "unknown"}</td>
-                      <td>{location.altitudeAccuracy ?? "unknown"}</td>
-                      <td>{location.heading ?? "unknown"}</td>
-                      <td>{location.latitude}</td>
-                      <td>{location.longitude}</td>
-                      <td>
-                        {moment(location.CapturedOn)
-                          .locale(userLocale)
-                          .format("LLL")}
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
+              ))
+            )}
+          </tbody>
+          {!isLoading && isFetchingNextPage && (
+            <tfoot>
+              <TableSkeleton row={3} column={headers.length} />
+            </tfoot>
+          )}
+        </table>
       </div>
     </>
   );

@@ -6,17 +6,17 @@ export const AccountSideBar = () => {
   const sideBarMenus = [
     {
       name: "Profile Information",
-      href: "profile",
+      href: "/account/profile",
       current: location.pathname === "/account/profile",
     },
     {
       name: "Tracking Preferences",
-      href: "tracking",
+      href: "/account/tracking",
       current: location.pathname === "/account/tracking",
     },
     {
       name: "Location History",
-      href: "location-history",
+      href: "/account/location-history",
       current: location.pathname === "/account/location-history",
     },
   ];

@@ -61,15 +61,17 @@ export function useRequestProcessor() {
       AxiosError<TError>,
       TVar
     > = {},
-    invalidateQueryKey?: QueryKey
+    invalidateQueryKeys?: QueryKey
   ) {
     return useMutation<AxiosResponse<TData>, AxiosError<TError>, TVar>({
       mutationKey: key,
       mutationFn: mutationFunction,
       onSettled: () =>
-        invalidateQueryKey !== undefined &&
-        queryClient.invalidateQueries({
-          queryKey: invalidateQueryKey,
+        invalidateQueryKeys !== undefined &&
+        invalidateQueryKeys.forEach((queryKey) => {
+          queryClient.invalidateQueries({
+            queryKey: [queryKey],
+          });
         }),
       ...options,
     });

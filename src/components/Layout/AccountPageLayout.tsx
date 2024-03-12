@@ -8,7 +8,7 @@ const AccountPageLayout = () => {
         <div className="w-1/5 bg-white dark:bg-gray-800 rounded-md">
           <AccountSideBar />
         </div>
-        <section className="w-full bg-white dark:bg-gray-800 rounded-md overflow-hidden p-3">
+        <section className="w-full h-full bg-white dark:bg-gray-800 rounded-md overflow-hidden">
           <Outlet />
         </section>
       </main>
