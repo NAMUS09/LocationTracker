@@ -4,6 +4,7 @@ import { useRequestProcessor } from "../../hooks/useRequestProcessor";
 
 import LocationHistoryBox from "./LocationHistoryBox";
 import { SuccessLocationHistoryResponse } from "../../constants/interfaces/locationResponse";
+import { LocationCardSkeleton, Skeleton } from "..";
 
 type LocationHistoryProps = {
   setPastLocation: React.Dispatch<
@@ -28,11 +29,23 @@ const LocationHistory: React.FC<LocationHistoryProps> = ({
       }
     );
 
-  if (isLoading) return <h1>Fetching...</h1>;
+  if (isLoading)
+    return (
+      <>
+        <Skeleton className="h-5 w-1/3 rounded-md" />
+        <Skeleton className="h-5 w-1/2 rounded-md my-1" />
+        <LocationCardSkeleton number={5} />
+      </>
+    );
 
   if (isError) return <h1>Failed to Fetch...</h1>;
 
-  const locationHistory = data?.data.locations;
+  let locationHistory = data?.data.locations;
+
+  if (!isLoading && isFetching) {
+    locationHistory = locationHistory?.slice(0, -1);
+  }
+
   return (
     <>
       {locationHistory?.length ? (
@@ -42,7 +55,9 @@ const LocationHistory: React.FC<LocationHistoryProps> = ({
             Your last 5 tracked location history:
           </p>
           <div className="h-full overflow-y-auto">
-            {!isLoading && isFetching && <h1>Loading new data...</h1>}
+            {!isLoading && isFetching && (
+              <LocationCardSkeleton key="new-location-skeleton" />
+            )}
             <LocationHistoryBox
               locations={locationHistory}
               setPastLocation={setPastLocation}

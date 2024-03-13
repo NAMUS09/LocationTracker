@@ -5,6 +5,7 @@ import DefaultResponse from "../../constants/interfaces/defaultResponse";
 import useGeolocation from "../../hooks/useGeoLocation";
 import { useRequestProcessor } from "../../hooks/useRequestProcessor";
 import { HiLocationMarker } from "react-icons/hi";
+import { Skeleton } from "..";
 
 const positionOptions: PositionOptions = {
   maximumAge: 0,
@@ -57,6 +58,27 @@ const LocationInfoBar = () => {
     }
   }, [isLoading]);
 
+  if (isLoading)
+    return (
+      <>
+        <div className="flex justify-between h-6">
+          <div className="bg-slate-400 h-5 w-1/5 rounded-md">
+            <Skeleton className="h-5" />
+          </div>
+          <div className="flex gap-2">
+            {[...Array(7)].map((_, index) => (
+              <div
+                key={index}
+                className="bg-slate-400 h-5 sm:w-[7.5rem] rounded-md"
+              >
+                <Skeleton className="h-5" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </>
+    );
+
   return (
     <>
       <div className="sm:flex  justify-between dark:text-white text-xs gap-2 items-center px-1">
@@ -76,8 +98,6 @@ const LocationInfoBar = () => {
                 <span>
                   {location[key]
                     ? (location[key] as unknown as string)
-                    : isLoading
-                    ? "fetching..."
                     : "unknown"}
                 </span>
               </div>

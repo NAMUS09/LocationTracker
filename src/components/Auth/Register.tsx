@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { signupFields } from "../../constants";
-import Button from "../Button";
+import Button from "../Button/Button";
 import Input from "../Input/Input";
 import { useForm, FieldValues, SubmitHandler } from "react-hook-form";
 import { useRequestProcessor } from "../../hooks/useRequestProcessor";
