@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useAppSelector } from "../../hooks/useStore";
+import { UserDataCookie } from "../../hooks/useUserCookie";
+import { LoginResponse } from "../../constants/interfaces/authResponse";
 
 const Greeting = () => {
   const userData = useAppSelector((state) => state.auth.userData);
@@ -24,10 +26,14 @@ const Greeting = () => {
     }
   }
 
+  const username =
+    (userData as UserDataCookie)?.name ||
+    (userData as LoginResponse)?.user?.name;
+
   return (
     <div>
       <h1 className="text-sm sm:text-lg">
-        Good {timeOfDay}, <span className="capitalize">{userData?.name}</span>!
+        Good {timeOfDay}, <span className="capitalize">{username}</span>!
       </h1>
     </div>
   );

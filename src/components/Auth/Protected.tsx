@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../hooks/useStore";
 import { useNavigate } from "react-router-dom";
 import useUserCookie from "../../hooks/useUserCookie";
 import { login } from "../../store/authSlice";
+import { LoginResponse } from "../../constants/interfaces/authResponse";
 
 type AuthProps = {
   children: ReactNode;
@@ -24,6 +25,14 @@ const Protected: React.FC<AuthProps> = ({
     if (user != null && user.email) {
       dispatch(login(user));
       authStatus = true;
+    }
+    if (user == null) {
+      const localUser = localStorage.getItem("User");
+      if (!localUser) return;
+
+      const parsedUser = JSON.parse(localUser) as LoginResponse;
+
+      dispatch(login(parsedUser));
     }
   }, []);
 

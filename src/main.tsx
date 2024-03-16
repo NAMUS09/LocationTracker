@@ -6,7 +6,11 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from "react-router-dom";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { CookiesProvider } from "react-cookie";
 
 import "./index.css";
@@ -93,6 +97,19 @@ const router = createBrowserRouter([
 ]);
 
 const interceptor = (store: EnhancedStore) => {
+  // Add an interceptor to append the JWT token to the request header
+  axiosClient.interceptors.request.use((config) => {
+    const token = store.getState().auth.userData.accessToken;
+
+    // If a token exists, add it to the request header
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    }
+
+    return config;
+  });
+
+  // handle all incoming req
   axiosClient.interceptors.response.use(
     (response) => response,
     async (error) => {

@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { UserDataCookie } from "../hooks/useUserCookie";
+import { LoginResponse } from "../constants/interfaces/authResponse";
 
 interface InitialState {
   status: boolean;
-  userData: UserDataCookie | null;
+  userData: UserDataCookie | LoginResponse | null;
 }
 
 const initialState: InitialState = {
@@ -22,6 +23,7 @@ const authSlice = createSlice({
     logout: (state) => {
       state.status = false;
       state.userData = null;
+      localStorage.removeItem("User");
     },
   },
 });

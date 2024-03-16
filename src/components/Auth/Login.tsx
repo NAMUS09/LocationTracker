@@ -40,8 +40,10 @@ const Login = () => {
   >(["LOGIN"], (formData) => axiosClient.post("/user/login", formData), {
     onSuccess: (res) => {
       reset();
-      const { user, resultMessage } = res.data;
-      dispatch(login(user));
+      const { user, resultMessage, accessToken, refreshToken } = res.data;
+      const saveUser = { user, accessToken, refreshToken };
+      dispatch(login(saveUser));
+      localStorage.setItem("User", JSON.stringify(saveUser));
       toast.success(resultMessage.en);
     },
     onError: (err) => {
