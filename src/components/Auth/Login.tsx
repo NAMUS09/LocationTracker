@@ -56,7 +56,7 @@ const Login = () => {
   };
   return (
     <>
-      <div className="p-4 sm:rounded-lg sm:px-10">
+      <div className="p-2 sm:p-4 sm:rounded-lg sm:px-10">
         <form className="space-y-4 py-4" onSubmit={handleSubmit(onSubmit)}>
           {fields.map((field) => (
             <Input

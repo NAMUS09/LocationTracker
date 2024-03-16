@@ -69,8 +69,8 @@ const Register = () => {
   };
   return (
     <>
-      <div className="p-4  sm:rounded-lg sm:px-10">
-        <form className="space-y-4 py-4" onSubmit={handleSubmit(onSubmit)}>
+      <div className="pt-2 px-1 sm:p-4 sm:rounded-lg sm:px-10">
+        <form className="space-y-2 py-2 sm:space-y-4 sm:py-4" onSubmit={handleSubmit(onSubmit)}>
           {fields.map((field) => (
             <Input
               key={field.id}

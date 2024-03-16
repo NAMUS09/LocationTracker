@@ -4,7 +4,7 @@ import LoginImage from "../assets/login.png";
 const LoginPage = () => {
   return (
     <>
-      <main className="flex flex-wrap md:flex-nowrap h-full justify-around items-center p-12">
+      <main className="min-h-dvh flex flex-wrap md:flex-nowrap h-full justify-around items-center sm:p-12">
         <div className="hover:scale-75 duration-150">
           <img
             src={LoginImage}
