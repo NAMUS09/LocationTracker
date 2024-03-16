@@ -37,7 +37,7 @@ const Login = () => {
     LoginResponse,
     LoginForm,
     DefaultResponse
-  >(["LOGIN"], (formData) => axiosClient.post("/user/login", formData), {
+  >([], (formData) => axiosClient.post("/user/login", formData), {
     onSuccess: (res) => {
       reset();
       const { user, resultMessage, accessToken, refreshToken } = res.data;

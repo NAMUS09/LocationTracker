@@ -95,7 +95,7 @@ const router = createBrowserRouter([
 const interceptor = (store: EnhancedStore) => {
   // Add an interceptor to append the JWT token to the request header
   axiosClient.interceptors.request.use((config) => {
-    const token = store.getState().auth.userData.accessToken;
+    const token = store.getState().auth.userData?.accessToken;
 
     // If a token exists, add it to the request header
     if (token) {
