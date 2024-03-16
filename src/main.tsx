@@ -6,11 +6,7 @@ import {
   RouterProvider,
   createBrowserRouter,
 } from "react-router-dom";
-import {
-  QueryClient,
-  QueryClientProvider,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { CookiesProvider } from "react-cookie";
 
 import "./index.css";
