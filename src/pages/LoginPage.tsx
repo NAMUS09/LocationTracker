@@ -5,8 +5,12 @@ const LoginPage = () => {
   return (
     <>
       <main className="flex flex-wrap md:flex-nowrap h-full justify-around items-center p-12">
-        <div className="w-[80%] hover:scale-75 duration-150">
-          <img src={LoginImage} alt="login page image" />
+        <div className="hover:scale-75 duration-150">
+          <img
+            src={LoginImage}
+            className="w-100 max-h-[17rem] sm:max-h-[60rem]"
+            alt="login page image"
+          />
         </div>
         <div className="w-full">
           <div className="sm:mx-auto sm:w-full sm:max-w-md">
