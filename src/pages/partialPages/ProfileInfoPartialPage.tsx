@@ -13,10 +13,10 @@ export type GetUserSuccessResponse = DefaultResponse & {
 };
 
 const ProfileInfoPartialPage = () => {
-  const [userFormDisable, setUserFormDisable] = useState(true);
+  const [userFormDisable] = useState(true);
   const { query } = useRequestProcessor();
 
-  const { data, isLoading, isError, isFetching } =
+  const { data, isLoading } =
     query<GetUserSuccessResponse>(() => axiosClient.get("/user"), {
       queryKey: ["CurrentUser"],
       refetchOnWindowFocus: false,

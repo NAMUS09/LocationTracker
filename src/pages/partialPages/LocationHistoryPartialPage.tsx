@@ -37,7 +37,7 @@ const LocationHistoryPartialPage = () => {
       initialPageParam: 1,
       queryKey: ["LocationHistoryInfinite"],
       refetchOnWindowFocus: false,
-      getNextPageParam: (axiosResponse, allPages) => {
+      getNextPageParam: (axiosResponse) => {
         const responseData = axiosResponse.data;
 
         if (responseData.nextPage == 0) return undefined;
