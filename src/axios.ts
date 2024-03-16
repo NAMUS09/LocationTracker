@@ -5,7 +5,6 @@ const baseURL =
 
 export const axiosConfig = {
   baseURL: baseURL,
-  mode: "no-cors",
   withCredentials: true,
 };
 
