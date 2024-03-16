@@ -39,21 +39,24 @@ export default function Header() {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                <div className="flex flex-shrink-0 items-center">
+              <div className="flex sm:flex-1 items-center justify-center sm:items-stretch sm:justify-start">
+                <div className="flex flex-col px-12 sm:p-0 sm:flex-row  flex-shrink-0 items-center">
                   <Link
                     className="flex items-center space-x-2 rtl:space-x-reverse"
                     to="/"
                   >
                     <img
                       src={logo}
-                      className="h-8"
+                      className=" h-4 sm:h-8"
                       alt="Location Tacker Logo"
                     />
-                    <span className="self-center text-2xl font-semibold whitespace-nowrap tracking-tight dark:text-white">
+                    <span className="sm:self-center text-base sm:text-2xl font-semibold whitespace-nowrap tracking-tight dark:text-white">
                       Location Tracker
                     </span>
                   </Link>
+                  <h2 className="dark:text-slate-100 block sm:hidden">
+                    <Greeting />
+                  </h2>
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
@@ -81,7 +84,7 @@ export default function Header() {
                   </div>
                 </div>
               </div>
-              <h2 className="dark:text-slate-100">
+              <h2 className="dark:text-slate-100 hidden sm:block">
                 <Greeting />
               </h2>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">

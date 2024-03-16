@@ -26,7 +26,7 @@ const Greeting = () => {
 
   return (
     <div>
-      <h1>
+      <h1 className="text-sm sm:text-lg">
         Good {timeOfDay}, <span className="capitalize">{userData?.name}</span>!
       </h1>
     </div>
