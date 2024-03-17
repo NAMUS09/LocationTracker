@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import useUserCookie from "../../hooks/useUserCookie";
 import { login } from "../../store/authSlice";
 import { LoginResponse } from "../../constants/interfaces/authResponse";
+import { Loading } from "..";
 
 type AuthProps = {
   children: ReactNode;
@@ -48,7 +49,7 @@ const Protected: React.FC<AuthProps> = ({
 
   return loader ? (
     <>
-      <h2>loading...</h2>
+      <Loading />
     </>
   ) : (
     <>{children}</>

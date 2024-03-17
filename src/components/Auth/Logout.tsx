@@ -32,6 +32,7 @@ const Logout = React.forwardRef<HTMLDivElement>((props, ref) => {
   const handleLogout = async () => {
     mutate();
   };
+
   return (
     <>
       <div

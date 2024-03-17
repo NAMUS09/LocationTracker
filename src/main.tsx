@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import {
@@ -11,11 +11,10 @@ import { CookiesProvider } from "react-cookie";
 
 import "./index.css";
 import App from "./App.tsx";
-import HomePage from "./pages/HomePage.tsx";
-import LoginPage from "./pages/LoginPage.tsx";
+
 import store from "./store/store.ts";
 import Protected from "./components/Auth/Protected.tsx";
-import ProtectedLayout from "./components/Layout/ProtectedLayout.tsx";
+
 import ToasterContext from "./context/Toast.tsx";
 import { EnhancedStore } from "@reduxjs/toolkit";
 import axios from "axios";
@@ -23,11 +22,30 @@ import axiosClient, { axiosConfig } from "./axios.ts";
 import { logout } from "./store/authSlice.ts";
 import toast from "react-hot-toast";
 
-import RegisterPage from "./pages/RegisterPage.tsx";
-import AccountPageLayout from "./components/Layout/AccountPageLayout.tsx";
-import ProfileInfoPartialPage from "./pages/partialPages/ProfileInfoPartialPage.tsx";
-import TrackingPreferencesPartialPage from "./pages/partialPages/TrackingPreferencesPartialPage.tsx";
-import LocationHistoryPartialPage from "./pages/partialPages/LocationHistoryPartialPage.tsx";
+import { Loading } from "./components/index.ts";
+
+// lazy loading routes
+//public routes
+const LoginPage = lazy(() => import("./pages/LoginPage.tsx"));
+const RegisterPage = lazy(() => import("./pages/RegisterPage.tsx"));
+
+// private routes
+const ProtectedLayout = lazy(
+  () => import("./components/Layout/ProtectedLayout.tsx")
+);
+const AccountPageLayout = lazy(
+  () => import("./components/Layout/AccountPageLayout.tsx")
+);
+const HomePage = lazy(() => import("./pages/HomePage.tsx"));
+const ProfileInfoPartialPage = lazy(
+  () => import("./pages/partialPages/ProfileInfoPartialPage.tsx")
+);
+const LocationHistoryPartialPage = lazy(
+  () => import("./pages/partialPages/LocationHistoryPartialPage.tsx")
+);
+const TrackingPreferencesPartialPage = lazy(
+  () => import("./pages/partialPages/TrackingPreferencesPartialPage.tsx")
+);
 
 const queryClient = new QueryClient();
 
@@ -80,6 +98,7 @@ const router = createBrowserRouter([
           </Protected>
         ),
       },
+
       {
         path: "/register",
         element: (
@@ -148,7 +167,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
           <ToasterContext />
-          <RouterProvider router={router} />
+          <Suspense fallback={<Loading />}>
+            <RouterProvider router={router} />
+          </Suspense>
         </Provider>
       </QueryClientProvider>
     </CookiesProvider>

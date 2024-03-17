@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import mapboxgl, { LngLat, LngLatBoundsLike } from "mapbox-gl";
 import { useAppSelector } from "../../hooks/useStore";
 
-mapboxgl.accessToken =
-  "pk.eyJ1Ijoic3VtYW4wOSIsImEiOiJja3ZtYmZ3ZHMwd3B1MnBrbGFzMjJ2NGZuIn0.XIuFDC5Ofw7mGJFT2XHbGQ";
+mapboxgl.accessToken = import.meta.env.VITE_MAP_BOX_GL;
 
 type LocationMarker = {
   longitude: number | null;

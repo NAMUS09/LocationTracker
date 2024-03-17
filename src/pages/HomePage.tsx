@@ -1,6 +1,5 @@
-import { Map } from "../components";
-import LocationHistory from "../components/Location/LocationHistory";
-import { useState } from "react";
+import { Skeleton, LocationHistory, Map } from "../components";
+import { Suspense, useState } from "react";
 
 const HomePage = () => {
   const [pastLocation, setPastLocation] = useState<{
@@ -12,7 +11,13 @@ const HomePage = () => {
     <>
       <main className="flex w-full h-full flex-wrap md:flex-nowrap">
         <section className="map w-full md:w-2/3 lg:min-w-[66.66%] h-full p-2">
-          <Map otherLocation={pastLocation} />
+          <Suspense
+            fallback={
+              <Skeleton className="h-[20rem] sm:h-[30rem] lg:h-[50rem] w-full rounded-md" />
+            }
+          >
+            <Map otherLocation={pastLocation} />
+          </Suspense>
         </section>
         <section className="location-history w-full md:flex-grow p-2">
           <LocationHistory setPastLocation={setPastLocation} />

@@ -42,8 +42,13 @@ const LocationHistory: React.FC<LocationHistoryProps> = ({
 
   let locationHistory = data?.data.locations;
 
-  if (!isLoading && isFetching) {
-    locationHistory = locationHistory?.slice(0, -1);
+  if (
+    !isLoading &&
+    isFetching &&
+    locationHistory &&
+    locationHistory?.length > 5
+  ) {
+    locationHistory = locationHistory.slice(0, -1);
   }
 
   return (
