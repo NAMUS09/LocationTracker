@@ -3,15 +3,15 @@ import Register from "../components/Auth/Register";
 
 const RegisterPage = () => {
   return (
-    <main className="min-h-dvh flex flex-wrap md:flex-nowrap h-full justify-around items-center px-1 py-3 sm:p-12">
-      <div className="hover:scale-75 duration-150">
+    <main className="min-h-dvh flex-col md:flex-row h-full justify-around items-center px-1 py-3 sm:p-12">
+      <div className="hover:scale-75 duration-150 flex-1">
         <img
           src={RegisterImage}
           className="w-100 max-h-[18rem] sm:max-h-[60rem]"
           alt="register page image"
         />
       </div>
-      <div className="w-full">
+      <div className="flex-1">
         <div className="sm:mx-auto sm:w-full sm:max-w-md">
           <h2 className="text-center sm:m-0 text-xl sm:text-2xl font-bold tracking-tight text-gray-900 dark:text-slate-200">
             Create an
