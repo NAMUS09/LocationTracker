@@ -3,7 +3,7 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { HiMiniXMark } from "react-icons/hi2";
 import { Link, useLocation } from "react-router-dom";
-import logo from "../../assets/logo.png";
+import logo from "../../assets/logo.webp";
 import { IoMdHome } from "react-icons/io";
 import { MdOutlineAccountCircle } from "react-icons/md";
 import Logout from "../Auth/Logout";

@@ -1,4 +1,4 @@
-import RegisterImage from "../assets/register.png";
+import RegisterImage from "../assets/register.webp";
 import Register from "../components/Auth/Register";
 
 const RegisterPage = () => {

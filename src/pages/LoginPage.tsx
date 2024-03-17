@@ -1,5 +1,6 @@
 import { Login } from "../components";
-import LoginImage from "../assets/login.png";
+import LoginImage from "../assets/login.webp";
+
 
 const LoginPage = () => {
   return (
