@@ -1,30 +1,53 @@
-# React + TypeScript + Vite
+# Location Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The Location Tracker is a web application built using React, TypeScript, and Vite. It allows users to track locations in real-time and provides features such as infinite scroll, data fetching with react-query and axios, and form handling with react-hook-form.
 
-Currently, two official plugins are available:
+## Table of Contents
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Contributing](#contributing)
 
-## Expanding the ESLint configuration
+## Features
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- **Real-time Location Tracking**: Track locations in real-time.
+- **Infinite Scroll**: Seamlessly browse through large sets of location data.
+- **Data Fetching with React Query**: Efficiently fetch and manage data with React Query and Axios.
+- **Form Handling with React Hook Form**: Streamlined form handling for a better user experience.
 
-- Configure the top-level `parserOptions` property like this:
+## Installation
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+To install and run the Location Tracker application locally, follow these steps:
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/NAMUS09/LocationTracker.git
+   ```
+
+2. Navigate to the project directory:
+
+   ```bash
+   cd LocationTracker
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+4. Prepare the environment variables by generating a `.env` file similar to the provided `.env.sample` file.
+
+## Usage
+
+After installation, start the API:
+
+```bash
+npm run dev
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+## Contributing
+
+Contributions are welcome! If you have any ideas, suggestions, or find any issues, please create an issue or submit a pull request.
