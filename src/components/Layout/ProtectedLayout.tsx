@@ -10,7 +10,7 @@ const ProtectedLayout = () => (
       <div className="bg-slate-400 text:black border-gray-400 dark:bg-gray-700 p-2">
         <LocationInfoBar />
       </div>
-      <div className="md:flex-grow overflow-hidden m-1">
+      <div className="md:flex-grow overflow-hidden m-1 h-full">
         <Outlet />
       </div>
       <Footer />

@@ -45,7 +45,7 @@ const Map: React.FC<LocationMarkers> = ({ otherLocation = null }) => {
 
     const map = new mapboxgl.Map({
       container: "map",
-      style: "mapbox://styles/drakosi/ckvcwq3rwdw4314o3i2ho8tph",
+      style: "mapbox://styles/mapbox/streets-v12",
       center: coordinates,
       zoom: userLocationTracked ? 16 : 3,
     });
@@ -83,7 +83,7 @@ const Map: React.FC<LocationMarkers> = ({ otherLocation = null }) => {
   return (
     <div
       id="map"
-      className="w-full max-h-[20rem] sm:max-h-[25rem] md:max-h-[40rem] lg:h-full lg:max-h-[50rem]"
+      className="w-full h-full"
     ></div>
   );
 };

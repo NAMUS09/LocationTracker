@@ -55,7 +55,7 @@ const LocationHistory: React.FC<LocationHistoryProps> = ({
     <>
       {locationHistory?.length ? (
         <div className="h-full">
-          <div className="font-bold">Location History</div>
+          <div className="font-bold text-lg">Location History</div>
           <p className="text-xs fw italic mb-1 dark:text-slate-300">
             Your last 5 tracked location history:
           </p>

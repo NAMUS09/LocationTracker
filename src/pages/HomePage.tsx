@@ -9,8 +9,8 @@ const HomePage = () => {
 
   return (
     <>
-      <main className="flex w-full h-full flex-wrap md:flex-nowrap">
-        <section className="map w-full md:w-2/3 lg:min-w-[66.66%] h-full p-2">
+      <main className="grid relative md:grid-cols-12 w-full h-full gap-2 p-2">
+        <section className="map h-[20rem] md:col-span-8 md:h-full">
           <Suspense
             fallback={
               <Skeleton className="h-[20rem] sm:h-[30rem] lg:h-[50rem] w-full rounded-md" />
@@ -19,7 +19,7 @@ const HomePage = () => {
             <Map otherLocation={pastLocation} />
           </Suspense>
         </section>
-        <section className="location-history w-full md:flex-grow p-2">
+        <section className="md:col-span-4 h-full w-full">
           <LocationHistory setPastLocation={setPastLocation} />
         </section>
       </main>
