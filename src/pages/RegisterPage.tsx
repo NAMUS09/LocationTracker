@@ -3,7 +3,7 @@ import Register from "../components/Auth/Register";
 
 const RegisterPage = () => {
   return (
-    <main className="min-h-dvh flex-col md:flex-row h-full justify-around items-center px-1 py-3 sm:p-12">
+    <main className="min-h-dvh flex flex-col md:flex-row h-full justify-around items-center px-1 py-3 sm:p-12">
       <div className="hover:scale-75 duration-150 flex-1">
         <img
           src={RegisterImage}
