@@ -23,6 +23,7 @@ import { logout } from "./store/authSlice.ts";
 import toast from "react-hot-toast";
 
 import { Loading } from "./components/index.ts";
+import ProtectedLayout from "./components/Layout/ProtectedLayout.tsx";
 
 // lazy loading routes
 //public routes
@@ -30,9 +31,9 @@ const LoginPage = lazy(() => import("./pages/LoginPage.tsx"));
 const RegisterPage = lazy(() => import("./pages/RegisterPage.tsx"));
 
 // private routes
-const ProtectedLayout = lazy(
-  () => import("./components/Layout/ProtectedLayout.tsx")
-);
+// const ProtectedLayout = lazy(
+//   () => import("./components/Layout/ProtectedLayout.tsx")
+// );
 const AccountPageLayout = lazy(
   () => import("./components/Layout/AccountPageLayout.tsx")
 );
@@ -64,11 +65,19 @@ const router = createBrowserRouter([
         children: [
           {
             path: "/",
-            element: <HomePage />,
+            element: (
+              <Suspense fallback={<Loading />}>
+                <HomePage />
+              </Suspense>
+            ),
           },
           {
             path: "/account",
-            element: <AccountPageLayout />,
+            element: (
+              <Suspense fallback={<Loading />}>
+                <AccountPageLayout />
+              </Suspense>
+            ),
             children: [
               {
                 path: "/account/",
@@ -76,15 +85,27 @@ const router = createBrowserRouter([
               },
               {
                 path: "/account/profile",
-                element: <ProfileInfoPartialPage />,
+                element: (
+                  <Suspense fallback={<Loading />}>
+                    <ProfileInfoPartialPage />
+                  </Suspense>
+                ),
               },
               {
                 path: "/account/tracking",
-                element: <TrackingPreferencesPartialPage />,
+                element: (
+                  <Suspense fallback={<Loading />}>
+                    <TrackingPreferencesPartialPage />
+                  </Suspense>
+                ),
               },
               {
                 path: "/account/location-history",
-                element: <LocationHistoryPartialPage />,
+                element: (
+                  <Suspense fallback={<Loading />}>
+                    <LocationHistoryPartialPage />
+                  </Suspense>
+                ),
               },
             ],
           },
@@ -94,7 +115,9 @@ const router = createBrowserRouter([
         path: "/login",
         element: (
           <Protected authentication={false}>
-            <LoginPage />
+            <Suspense fallback={<Loading />}>
+              <LoginPage />
+            </Suspense>
           </Protected>
         ),
       },
@@ -103,7 +126,9 @@ const router = createBrowserRouter([
         path: "/register",
         element: (
           <Protected authentication={false}>
-            <RegisterPage />
+            <Suspense fallback={<Loading />}>
+              <RegisterPage />
+            </Suspense>
           </Protected>
         ),
       },
@@ -167,9 +192,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
           <ToasterContext />
-          <Suspense fallback={<Loading />}>
-            <RouterProvider router={router} />
-          </Suspense>
+          <RouterProvider router={router} />
         </Provider>
       </QueryClientProvider>
     </CookiesProvider>
