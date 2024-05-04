@@ -115,7 +115,7 @@ const router = createBrowserRouter([
         path: "/login",
         element: (
           <Protected authentication={false}>
-            <Suspense fallback={<Loading />}>
+            <Suspense fallback={<Loading isPartialLoading={false} />}>
               <LoginPage />
             </Suspense>
           </Protected>
@@ -126,7 +126,7 @@ const router = createBrowserRouter([
         path: "/register",
         element: (
           <Protected authentication={false}>
-            <Suspense fallback={<Loading />}>
+            <Suspense fallback={<Loading isPartialLoading={false} />}>
               <RegisterPage />
             </Suspense>
           </Protected>

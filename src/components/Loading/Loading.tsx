@@ -1,10 +1,18 @@
 interface LoadingProps {
   loadingText?: string;
+  isPartialLoading?: boolean;
 }
 
-const Loading: React.FC<LoadingProps> = ({ loadingText }) => {
+const Loading: React.FC<LoadingProps> = ({
+  loadingText,
+  isPartialLoading = true,
+}) => {
   return (
-    <div className=" absolute h-full w-full flex items-center justify-center bg-slate-300 bg-opacity-60">
+    <div
+      className={`${
+        !isPartialLoading && "absolute"
+      }h-full w-full flex items-center justify-center bg-slate-300 bg-opacity-60`}
+    >
       <div className="text-center">
         <div role="status" className="my-2">
           <svg
